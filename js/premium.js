@@ -41,7 +41,7 @@ const Premium = (() => {
             // For the pure "test purchase made" checklist item this is NOT required
             const { session } = await Vatar.session();
 
-            const response = await fetch("/claim", {
+            const response = await fetch("https://times-tables-teacher-backend.onrender.com/claim", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
