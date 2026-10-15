@@ -94,9 +94,13 @@ function updateSelectionMessage() {
         `Selected ${tables.length} table(s): ${tables.join(", ")}`;
 }
 
-// This function is a placeholder until the purchase flow is connected.
 function requestAdvancedPackPurchase() {
-    alert("Purchase integration is not connected yet.");
+    // Delegate to the Premium module
+    if (window.Premium && typeof Premium.buy === "function") {
+        Premium.buy();
+    } else {
+        alert("Purchase system is not ready yet.");
+    }
 }
 
 // Call this only after the backend confirms the entitlement.
@@ -466,10 +470,10 @@ function playAgain() {
 document.addEventListener("DOMContentLoaded", () => {
     renderTableOptions();
 
-    const unlockButton =
+    /* const unlockButton =
         document.getElementById("unlock-advanced-tables");
 
-    unlockButton?.addEventListener("click", requestAdvancedPackPurchase);
+    unlockButton?.addEventListener("click", requestAdvancedPackPurchase); */
 
     const startButton =
         document.getElementById("start-mixed-practice");
