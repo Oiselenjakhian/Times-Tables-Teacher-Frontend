@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Times Tables Teacher</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="icon" type="image/png" href="img/app_icon.png">
+	</head>
+	<body>
+		<!-- Introduction Screen -->
+		<div id="intro-screen" class="active">
+			<div class="intro-container">
+				<h1 class="game-title">Times Tables Teacher</h1>
+				<p class="game-subtitle">Master the multiplication tables in a fun way.</p>
+				
+				<!-- Player greeting (Lagos Life) -->
+				<p id="player-greeting" class="player-greeting"></p>
+
+				<div class="game-decoration" aria-hidden="true">
+					<span>✖</span>
+					<span>➕</span>
+					<span>⭐</span>
+					<span>➗</span>
+				</div>
+				
+				<div class="menu-buttons">
+					<button onclick="startGame()">Play</button>
+					<button onclick="showPanel('instructions')">Instructions</button>
+					<button onclick="showPanel('settings')">Settings</button>
+					<button onclick="showPanel('credits')">Credits</button>
+					<p id="purchase-message" role="status" aria-live="polite"></p>
+				</div>
+				
+				<!-- Instructions Panel -->
+				<div id="instructions" class="menu-panel">
+					<h2>How to Play</h2>
+					<p>Welcome to Times Tables Teacher! The objective is to answer the multiplication tables questions correctly.</p>
+					<ol>
+						<li>The two numbers to be multiplied are shown.</li>
+						<li>Find the product of the two numbers and enter it into the textbox then press enter.</li>
+						<li>Answer the question before the time runs out.</li>
+						<li>If the time runs out, the correct answer is displayed and a new question is shown.</li>
+						<li>If you enter a wrong answer, the correct answer is displayed and a new question is shown.</li>
+						<li>If the answer is correct, your score increases and a new question is shown.</li>
+						<li>At the end, you get to view your score.</li>
+					</ol>
+					
+					<div class="back-button">
+						<button onclick="showMainMenu()">Back</button>
+					</div>
+				</div>
+				
+				<!-- Settings Panel -->
+				<div id="settings" class="menu-panel">
+					
+					<section id="table-settings" class="table-settings">
+						<h2>Choose Your Tables</h2>
+						<p class="settings-description">
+							Select one or more tables for a mixed practice quiz.
+						</p>
+
+						<div class="table-section-heading">
+							<h3>Free Tables</h3>
+							<span class="access-label free-label">Included</span>
+						</div>
+
+						<div id="free-table-options" class="table-grid"></div>
+
+						<div class="table-section-heading premium-heading">
+							<div>
+								<h3>Advanced Tables</h3>
+								<p>Unlock tables 13–20</p>
+							</div>
+							<span class="access-label premium-label">Premium</span>
+						</div>
+
+						<div id="premium-table-options" class="table-grid"></div>
+						
+						<br/><br/>
+
+						<p id="selection-message" class="selection-message"
+						   aria-live="polite">
+							Select at least one table.
+						</p>
+						<button id="start-mixed-practice" type="button">
+							Start Practice
+						</button>
+
+						<button id="unlock-advanced-tables" type="button">
+							Unlock Tables 13–20
+						</button>
+					</section>	
+					<br/><br/>
+					<section id="game-settings" class="game-settings">
+						<div class="setting-group">
+							<label for="time_limit"><strong>Time Limit:</strong></label>
+							<select name="time_limit" id="time_limit">
+								<option value="5">5</option>
+								<option value="10">10</option>
+								<option value="15">15</option>
+								<option value="20">20</option>
+								<option value="25">25</option>
+								<option value="30" selected>30</option>
+							</select>
+						</div>
+						<div class="setting-group">
+							<label for="questions"><strong>Number of Questions:</strong></label>
+							<select name="questions" id="questions">
+								<option value="10" selected>10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+							</select>
+						</div>
+					</section>
+					<div class="back-button">
+						<button onclick="showMainMenu()">Back</button>
+					</div>
+				</div>
+				
+				<!-- Credits Panel -->
+				<div id="credits" class="menu-panel">
+					<h2>Credits</h2>
+
+					<p><strong>Game:</strong> Times Tables Teacher</p>
+					<p><strong>Developer:</strong> Truston Ailende</p>
+					<p><strong>Photo by:</strong> <a href="https://unsplash.com/@enric_moreu?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Enric Moreu</a> on <a href="https://unsplash.com/photos/a-large-number-of-numbers-are-arranged-in-rows-IJUI81_0Wc4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">Unsplash</a></p>
+					<p><strong>Technology:</strong> HTML, CSS and JavaScript</p>
+
+					<div class="back-button">
+						<button onclick="showMainMenu()">Back</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Game Screen -->
+		<div id="game-screen">
+			<div class="game-container">
+				<header class="game-header">
+					<button
+						type="button"
+						class="exit-button"
+						onclick="backToMainMenu()"
+						aria-label="Exit game"
+					>
+						←
+					</button>
+				</header>
+
+				<main class="game-card">
+					<section class="game-stats">
+						<div class="stat-box timer-box">
+							<div class="stat-label">
+								<span>⏱️</span>
+								<span>TIME LEFT</span>
+							</div>
+							<p id="timer"></p>
+						</div>
+
+						<div class="stat-box score-box">
+							<div class="stat-label">
+								<span>⭐</span>
+								<span>SCORE</span>
+							</div>
+							<p id="score">0</p>
+						</div>
+					</section>
+
+					<section class="progress-section">
+						<div class="progress-info">
+							<span id="question-progress">Question 1 of 10</span>
+						</div>
+						<div class="progress-track">
+							<div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+						</div>
+					</section>
+
+					<section class="question-card">
+						<p class="question-instruction">Solve this multiplication!</p>
+						<div class="question-display">
+							<span id="number1">8</span>
+							<span class="multiplication-symbol">×</span>
+							<span id="number2">7</span>
+							<span class="equals-symbol">=</span>
+							<span class="question-mark">?</span>
+						</div>
+
+						<div class="answer-container">
+							<input
+								type="number"
+								id="answer"
+								class="answer-input"
+								placeholder="Your answer"
+								inputmode="none"
+								autocomplete="off"
+								aria-label="Enter your answer"
+								autofocus
+							>
+						</div>
+
+						<p id="feedback" class="answer-feedback" aria-live="polite"></p>
+					</section>
+				</main>
+			</div>
+		</div>
+		
+		<!-- Results Screen -->
+		<div id="results-screen">
+			<div class="results-container">
+				<header class="results-header">
+					<div class="celebration-icon">🏆</div>
+					<h1 id="results-title">Amazing Work!</h1>
+					<p id="results-message">You've completed your multiplication challenge!</p>
+				</header>
+
+				<section class="final-score-card">
+					<p class="final-score-label">YOUR FINAL SCORE</p>
+					<h2 id="final-score">0</h2>
+					<div class="score-stars" id="score-stars">⭐ ⭐ ⭐</div>
+					<p id="performance-message">Keep up the great work!</p>
+				</section>
+
+				<section class="results-stats">
+					<div class="result-stat correct-stat">
+						<span class="result-stat-icon">✓</span>
+						<p class="result-stat-value" id="correct-count">0</p>
+						<p class="result-stat-label">Correct</p>
+					</div>
+
+					<div class="result-stat incorrect-stat">
+						<span class="result-stat-icon">✕</span>
+						<p class="result-stat-value" id="incorrect-count">0</p>
+						<p class="result-stat-label">Incorrect</p>
+					</div>
+
+					<div class="result-stat accuracy-stat">
+						<span class="result-stat-icon">🎯</span>
+						<p class="result-stat-value" id="accuracy">0%</p>
+						<p class="result-stat-label">Accuracy</p>
+					</div>
+
+					<div class="result-stat time-stat">
+						<span class="result-stat-icon">⏱️</span>
+						<p class="result-stat-value" id="time-spent">0</p>
+						<p class="result-stat-label">Time Used</p>
+					</div>
+				</section>
+
+				<div class="results-actions">
+					<button type="button" class="play-again-button" onclick="playAgain()">🔄 Play Again</button>
+					<button type="button" class="main-menu-button" onclick="showMainMenu()">🏠 Main Menu</button>
+				</div>
+
+				<footer class="results-footer">
+					<p>⭐ Every question you practise makes you smarter!</p>
+				</footer>
+			</div>
+		</div>
+
+		<!-- Lagos Life / Vatar Games SDK -->
+		<script src="https://lagoslife.app/sdk/vatar-games-v1.js"></script>
+		<script src="js/lagos-life.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/premium.js"></script>
+	</body>
+</html>
